@@ -605,7 +605,6 @@
 </div>
 
 <script>
-// --- synthetic data injected via pipe: generate_synthetic_data.py (seed=42) — not hand-typed. See README for the pipe command. ---
 const BASE_COLORS = { A:0x2dd4bf, T:0xe879f9, C:0xfbbf24, G:0xa78bfa };
 
 const REFERENCE = "ATGGTGCACCTGACTCCTGAGGAGAAGTCTGCCGTTACTG".split("");
@@ -635,14 +634,14 @@ const DISEASE_DB = [
 // real RDKit output (MolWt, MolLogP, NumHDonors, NumHAcceptors, TPSA, RotatableBonds)
 // computed from valid SMILES in the companion compute_descriptors.py script.
 const COMPOUND_DB = [
-  { name:"Voxelamine", smiles:"CC(C)Cc1ccc(cc1)C(C)C(=O)NCCN", mw:248.4, logp:2.06, hbd:2, hba:2, tpsa:55.1, rotb:6, tags:["HBB","CFTR"] },
-  { name:"Fentrostat", smiles:"COc1ccc(cc1)CCNC(=O)c1ccc(Cl)cc1OC", mw:319.8, logp:3.33, hbd:1, hba:3, tpsa:47.6, rotb:6, tags:["CFTR"] },
-  { name:"Kerabinol", smiles:"OCC1OC(O)C(O)C(O)C1O", mw:180.2, logp:-3.22, hbd:5, hba:6, tpsa:110.4, rotb:1, tags:["HBB"] },
-  { name:"Ondaprexil", smiles:"CC1=NN(C(=O)C1)c1ccc(cc1)S(=O)(=O)N1CCCCC1", mw:321.4, logp:1.97, hbd:0, hba:4, tpsa:70.0, rotb:3, tags:["BRCA1"] },
-  { name:"Nucleoflavin", smiles:"Cc1cc2nc3c(nc(=O)[nH]c3=O)n(CC(O)C(O)C(O)CO)c2cc1C", mw:376.4, logp:-1.72, hbd:5, hba:8, tpsa:161.6, rotb:5, tags:["HTT","BRCA1"] },
-  { name:"Thiazolamex", smiles:"Cc1nc(cs1)C(=O)Nc1ccc(cc1)S(N)(=O)=O", mw:297.4, logp:1.35, hbd:2, hba:5, tpsa:102.2, rotb:3, tags:["G6PD"] },
-  { name:"Corvexanide", smiles:"CCN(CC)CCNC(=O)c1ccc(cc1)Nc1ncccn1", mw:313.4, logp:2.29, hbd:2, hba:5, tpsa:70.2, rotb:8, tags:["CFTR","HBB"] },
-  { name:"Plicatannin", smiles:"Oc1ccc(cc1)C1Oc2cc(O)cc(O)c2C(=O)C1O", mw:288.3, logp:1.48, hbd:4, hba:6, tpsa:107.2, rotb:1, tags:["BRCA1","HTT"] },
+  { name:"Voxelamine",   smiles:"CC(C)Cc1ccc(cc1)C(C)C(=O)NCCN",                       mw:248.4, logp:2.06,  hbd:2, hba:2, tpsa:55.1,  rotb:6, tags:["HBB","CFTR"] },
+  { name:"Fentrostat",   smiles:"COc1ccc(cc1)CCNC(=O)c1ccc(Cl)cc1OC",                  mw:319.8, logp:3.33,  hbd:1, hba:3, tpsa:47.6,  rotb:6, tags:["CFTR"] },
+  { name:"Kerabinol",    smiles:"OCC1OC(O)C(O)C(O)C1O",                                mw:180.2, logp:-3.22, hbd:5, hba:6, tpsa:110.4, rotb:1, tags:["HBB"] },
+  { name:"Ondaprexil",   smiles:"CC1=NN(C(=O)C1)c1ccc(cc1)S(=O)(=O)N1CCCCC1",          mw:321.4, logp:1.97,  hbd:0, hba:4, tpsa:70.0,  rotb:3, tags:["BRCA1"] },
+  { name:"Nucleoflavin", smiles:"Cc1cc2nc3c(nc(=O)[nH]c3=O)n(CC(O)C(O)C(O)CO)c2cc1C",  mw:376.4, logp:-1.72, hbd:5, hba:8, tpsa:161.6, rotb:5, tags:["HTT","BRCA1"] },
+  { name:"Thiazolamex",  smiles:"Cc1nc(cs1)C(=O)Nc1ccc(cc1)S(N)(=O)=O",                mw:297.4, logp:1.35,  hbd:2, hba:5, tpsa:102.2, rotb:3, tags:["G6PD"] },
+  { name:"Corvexanide",  smiles:"CCN(CC)CCNC(=O)c1ccc(cc1)Nc1ncccn1",                  mw:313.4, logp:2.29,  hbd:2, hba:5, tpsa:70.2,  rotb:8, tags:["CFTR","HBB"] },
+  { name:"Plicatannin",  smiles:"Oc1ccc(cc1)C1Oc2cc(O)cc(O)c2C(=O)C1O",                mw:288.3, logp:1.48,  hbd:4, hba:6, tpsa:107.2, rotb:1, tags:["BRCA1","HTT"] },
 ];
 
 /* ============================================================
@@ -1851,15 +1850,8 @@ function downloadJSON(obj, filename){
 
 /* ---------- CLINICAL TRIAL SIMULATOR (synthetic patients only) ---------- */
 let currentPhase = 1;
-let cohort = [
-  { id:"PT-001", age:62, sex:"F", consented:false, dose:"Single ascending dose", ae:[] },
-  { id:"PT-002", age:39, sex:"F", consented:true, dose:"Single ascending dose", ae:[] },
-  { id:"PT-003", age:28, sex:"F", consented:true, dose:"Single ascending dose", ae:[] },
-  { id:"PT-004", age:24, sex:"F", consented:false, dose:"Single ascending dose", ae:[] },
-  { id:"PT-005", age:36, sex:"F", consented:true, dose:"Single ascending dose", ae:[] },
-  { id:"PT-006", age:63, sex:"M", consented:true, dose:"Single ascending dose", ae:[] }
-]; // seeded from piped synthetic data (generate_synthetic_data.py, seed 42)
-let patientCounter = 7;
+let cohort = []; // {id, age, sex, consented, dose, ae:[]}
+let patientCounter = 1;
 
 const PHASE_INFO = {
   1: { label:'Phase I — safety',        segs:6, active:0, targetN:12, dose:'Single ascending dose' },
