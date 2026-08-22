@@ -21,14 +21,19 @@ Required env vars:
 import os
 from typing import Optional
 
+_HEDERA_SDK_ERROR: str | None = None
 try:
     from hedera import (
         Client, AccountId, PrivateKey,
         TopicCreateTransaction, TopicMessageSubmitTransaction,
     )
     _HEDERA_SDK_AVAILABLE = True
-except ImportError:
+except Exception as e:
+    # Catch any import-time errors (including jnius / Java errors) so the
+    # whole application can start even when Hedera native dependencies
+    # (JNI / javac / JDK) are missing in the runtime environment.
     _HEDERA_SDK_AVAILABLE = False
+    _HEDERA_SDK_ERROR = str(e)
 
 
 def _load_credentials():
@@ -43,7 +48,10 @@ def status() -> dict:
     """Report whether real Hedera connectivity is configured, without
     attempting a network call unless credentials are actually present."""
     if not _HEDERA_SDK_AVAILABLE:
-        return {"configured": False, "reason": "hedera-sdk-py not installed"}
+        return {
+            "configured": False,
+            "reason": _HEDERA_SDK_ERROR or "hedera-sdk-py not available or failed to initialize",
+        }
     account_id, private_key, network, topic_id = _load_credentials()
     if not (account_id and private_key):
         return {
