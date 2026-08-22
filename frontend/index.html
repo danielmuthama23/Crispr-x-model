@@ -703,7 +703,7 @@
 
     <div class="field" style="max-width:360px;">
       <label>Backend API base URL</label>
-      <input type="text" id="lab-api-base" value="http://localhost:8000" placeholder="http://localhost:8000">
+      <input type="text" id="lab-api-base" value="" placeholder="(leave empty to use site origin)">
     </div>
 
     <div class="field">
@@ -1714,7 +1714,7 @@ async function renderVisionSummary(detections){
   box.style.display = 'block';
   textEl.textContent = 'Summarizing…';
   tagEl.innerHTML = '';
-  const apiBase = (document.getElementById('lab-api-base')?.value || 'http://localhost:8000').trim().replace(/\/$/,'');
+  const apiBase = (document.getElementById('lab-api-base')?.value || window.location.origin).trim().replace(/\/$/,'');
   try {
     const resp = await fetch(`${apiBase}/api/vision/summarize`, {
       method: 'POST', headers: {'Content-Type':'application/json'},
@@ -2670,7 +2670,7 @@ document.getElementById('btn-lab-build').addEventListener('click', async ()=>{
   if (!check.ok){ renderLabResult({ error: check.reason }); return; }
 
   box.innerHTML = '<div style="font-size:12px;color:var(--muted);">Scoring…</div>';
-  const apiBase = document.getElementById('lab-api-base').value.trim().replace(/\/$/,'');
+  const apiBase = (document.getElementById('lab-api-base').value || window.location.origin).trim().replace(/\/$/,'');
   const targetGene = selectedMutation ? selectedMutation.gene : null;
   const payload = {
     atoms: labAtoms.map(a=>a.el),
