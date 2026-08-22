@@ -7,3 +7,4 @@ hedera-sdk-py>=2.46
 anthropic>=0.34
 pytest>=8.0
 httpx>=0.27
+gunicorn>=20.1.0
