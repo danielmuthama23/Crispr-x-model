@@ -147,6 +147,10 @@ This isn't wired to auto-fire on every append by default — that's a deliberate
 choice so the backend never silently attempts (and fails) a real network call
 without your explicit credentials in place.
 
+## Team Details
+daniel muthama - danielmuthama23@gmail.com
+
+
 ## Honest limitations
 
 This is a teaching/demo platform, not a clinical, wet-lab, or regulatory-grade
